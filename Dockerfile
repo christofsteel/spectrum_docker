@@ -11,7 +11,7 @@ RUN update-ca-certificates
 RUN echo "deb [trusted=yes] https://repo.k-fortytwo.de/debian wheezy main" >> /etc/apt/sources.list
 RUN apt-get update && apt-get --no-install-recommends -y install mercurial
 RUN apt-get update && apt-get -y dist-upgrade
-RUN apt-get intall --no-install-recommends -y git
+RUN apt-get install --no-install-recommends -y git
 
 WORKDIR /tmp
 RUN git clone https://github.com/christofsteel/spectrum_docker 
