@@ -13,6 +13,14 @@ RUN apt-get update && apt-get --no-install-recommends -y install mercurial
 RUN apt-get update && apt-get -y dist-upgrade
 RUN apt-get install --no-install-recommends -y git
 
+RUN apt-get --no-install-recommends -y install nano
+RUN apt-get --no-install-recommends -y install vim
+RUN apt-get install --no-install-recommends -y libboost-date-time1.49.0 libboost-filesystem1.49.0  libboost-program-options1.49.0 libboost-regex1.49.0 libboost-signals1.49.0 libboost-system1.49.0 libboost-thread1.49.0 libc6 libgcc1 libidn11 liblog4cxx10 libmysqlclient18 libpopt0 libpq5 libpqxx-3.1 libprotobuf7 libqt4-network libqtcore4 libqtgui4 libsqlite3-0 libssl1.0.0 libstdc++6 libxml2 zlib1g libpurple0
+RUN apt-get install --no-install-recommends -y libswiften2
+RUN apt-get install --no-install-recommends -y libqt4-declarative libqt4-script libqt4-sql libqt4-xmlpatterns
+RUN apt-get update
+RUN apt-get install --no-install-recommends -y --force-yes spectrum2 spectrum2-backend-libpurple spectrum2-backend-libcommuni
+
 WORKDIR /tmp
 RUN git clone https://github.com/christofsteel/spectrum_docker 
 
@@ -29,10 +37,5 @@ RUN chmod a+x /bin/startd
 
 ENTRYPOINT ["/bin/init.sh"]
 
-RUN apt-get --no-install-recommends -y install nano
-RUN apt-get --no-install-recommends -y install vim
-RUN apt-get install --no-install-recommends -y libboost-date-time1.49.0 libboost-filesystem1.49.0  libboost-program-options1.49.0 libboost-regex1.49.0 libboost-signals1.49.0 libboost-system1.49.0 libboost-thread1.49.0 libc6 libgcc1 libidn11 liblog4cxx10 libmysqlclient18 libpopt0 libpq5 libpqxx-3.1 libprotobuf7 libqt4-network libqtcore4 libqtgui4 libsqlite3-0 libssl1.0.0 libstdc++6 libxml2 zlib1g libpurple0
-RUN apt-get install --no-install-recommends -y libswiften2
-RUN apt-get install --no-install-recommends -y libqt4-declarative libqt4-script libqt4-sql libqt4-xmlpatterns
-RUN apt-get update
-RUN apt-get install --no-install-recommends -y --force-yes spectrum2 spectrum2-backend-libpurple spectrum2-backend-libcommuni
+RUN rm -rf /var/log/spectrum2/
+RUN ln -s /var/lib/spectrum2/log /var/log/spectrum2
