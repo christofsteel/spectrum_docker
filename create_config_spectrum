@@ -1,0 +1,46 @@
+#!/bin/bash
+echo "Creating configs for $COMPONENT.$DOMAIN"
+cat << EOF > /etc/spectrum2/transports/$COMPONENT.cfg
+[service]
+jid = $COMPONENT.$DOMAIN
+password = secret
+server = 127.0.0.1
+port = 5347
+backend_host = 127.0.0.1
+users_per_backend=10
+EOF
+
+if [ "$COMPONENT" == "irc" ]; then
+	echo "backend=/usr/bin/spectrum2_libcommuni_backend" >> /etc/spectrum2/transports/$COMPONENT.cfg
+else
+	echo "backend=/usr/bin/spectrum2_libpurple_backend" >> /etc/spectrum2/transports/$COMPONENT.cfg
+fi
+
+if [ "$COMPONENT" == "icq" ]; then
+	echo "protocol=prpl-icq" >> /etc/spectrum2/transports/$COMPONENT.cfg
+elif [ "$COMPONENT" == "xmpp" ] || [ "$COMPONENT" == "facebook" ]; then
+	echo "protocol=prpl-jabber" >> /etc/spectrum2/transports/$COMPONENT.cfg
+elif [ "$COMPONENT" == "msn" ]; then
+	echo "protocol=prpl-msn" >> /etc/spectrum2/transports/$COMPONENT.cfg
+fi
+
+cat << EOF >> /etc/spectrum2/transports/$COMPONENT.cfg
+[identity]
+name=$COMPONENT Transport
+type=$COMPONENT
+[logging]
+config = /etc/spectrum2/logging.cfg
+backend_config = /etc/spectrum2/backend-logging.cfg
+
+[database]
+type = sqlite3
+
+[registration]
+enable_public_registration=1
+
+EOF
+
+if [ "$COMPONENT" == "facebook" ]; then
+	echo "username_label=Facebook username:" >> /etc/spectrum2/transports/$COMPONENT.cfg
+	echo "username_mask=\$username@chat.facebook.com" >> /etc/spectrum2/transports/$COMPONENT.cfg
+fi

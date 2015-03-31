@@ -1,0 +1,13 @@
+function init_service {
+	create_config_spectrum
+}
+function start_service {
+	spectrum2_manager start 
+}
+function stop_service {
+	spectrum2_manager stop
+}
+function restart_service {
+	stop_service
+	start_service
+}
