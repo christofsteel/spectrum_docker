@@ -4,7 +4,7 @@ cat << EOF > /etc/spectrum2/transports/$COMPONENT.cfg
 [service]
 jid = $COMPONENT.$DOMAIN
 password = secret
-server = 127.0.0.1
+server = prosody
 port = 5347
 backend_host = 127.0.0.1
 users_per_backend=10
